@@ -11,7 +11,6 @@ const InnerContainer = styled.div`
 `;
 
 const Container = styled.section`
-  background: #fbfbfb;
   width: 100%;
 `;
 
@@ -19,7 +18,6 @@ interface ISectionProps {
   heading: string
   paragraph: string
 }
-
 
 export const Section: React.FC<ISectionProps> = ({ heading, paragraph }) => (
   <Container>

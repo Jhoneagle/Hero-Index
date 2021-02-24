@@ -35,7 +35,7 @@ export const HeadingThree = styled.h3`
 
 export const Paragraph = styled.p`
   color: #191919;
-  font-weight: 500;
+  font-weight: 510;
   letter-spacing: 0.65px;
   line-height: 32px;
   font-family: "Montserrat";
