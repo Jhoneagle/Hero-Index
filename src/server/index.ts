@@ -1,20 +1,25 @@
 import 'reflect-metadata';
-import { useContainer, ConnectionOptions, createConnection } from 'typeorm';
-import { Container } from 'typedi';
+import {ConnectionOptions, createConnection, useContainer} from 'typeorm';
+import {Container} from 'typedi';
 import path from 'path';
-import { ApolloServer } from 'apollo-server';
+import {ApolloServer} from 'apollo-server';
 import * as TypeGraphQl from 'type-graphql';
 
-import { Hero } from './entities/hero';
-import { Skill } from './entities/skill';
-import { Attribute } from './entities/attribute';
-import { Vault } from './entities/vault';
+import * as jwt from 'jsonwebtoken';
+import {JWT_SIGNING_SECRET} from "./utils/config";
 
-import { HeroResolver } from './resolvers/hero-resolver';
-import { VaultResolver } from './resolvers/vault-resolver';
-import { AuthTokenResolver } from './resolvers/auth-resolver';
+import {Hero} from './entities/hero';
+import {Skill} from './entities/skill';
+import {Attribute} from './entities/attribute';
+import {Vault} from './entities/vault';
 
-import { seedDatabase } from './helpers';
+import {HeroResolver} from './resolvers/hero-resolver';
+import {VaultResolver} from './resolvers/vault-resolver';
+import {AuthTokenResolver} from './resolvers/auth-resolver';
+
+import {seedDatabase} from './helpers';
+import {customAuthChecker} from "./utils/CustomAuthChecker";
+import {AuthMiddleware} from "./utils/AuthMiddleware";
 
 useContainer(Container);
 
@@ -36,9 +41,22 @@ const bootstrapApp = async () => {
 		const schema = await TypeGraphQl.buildSchema({
 			resolvers: [HeroResolver, VaultResolver, AuthTokenResolver],
 			container: Container,
+			authChecker: customAuthChecker,
+			globalMiddlewares: [AuthMiddleware]
 		});
 
-		const server = new ApolloServer({ schema });
+		const server = new ApolloServer({
+			schema,
+			context: async ({ req }) => {
+				const auth = req ? req.headers.authorization : null
+				if (auth) {
+					const decodedToken = jwt.verify(auth, JWT_SIGNING_SECRET)['userId'] as string
+					return { token: decodedToken }
+				}
+
+				return null
+			}
+		});
 
 		const { url } = await server.listen(4000);
 		console.log(`Server is running, GraphQL Playground available at ${url}`);

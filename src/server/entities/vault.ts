@@ -1,5 +1,6 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToMany, JoinTable, OneToOne } from 'typeorm';
-import { ObjectType, ID, Field } from 'type-graphql';
+import {Column, Entity, PrimaryGeneratedColumn} from 'typeorm';
+import {Authorized, Field, ID, ObjectType} from 'type-graphql';
+import {AuthorityRole} from "../types/authorityRole";
 
 @Entity()
 @ObjectType()
@@ -9,7 +10,7 @@ export class Vault {
 	id!: number;
 
 
-  //☆.。.:*・°☆.。.:*・°☆.。.:*・°☆.。.:*
+	@Authorized<AuthorityRole>(['admin', 'master', 'grandmaster'])
 	@Field()
 	@Column()
 	treasures: string;

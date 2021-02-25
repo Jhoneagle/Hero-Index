@@ -1,9 +1,9 @@
-import { Resolver, Query } from 'type-graphql';
+import {Query, Resolver} from 'type-graphql';
 
-import { Vault } from '../entities/vault';
-import { InjectRepository } from 'typeorm-typedi-extensions';
-import { Repository } from 'typeorm';
-import { Service } from 'typedi';
+import {Vault} from '../entities/vault';
+import {InjectRepository} from 'typeorm-typedi-extensions';
+import {Repository} from 'typeorm';
+import {Service} from 'typedi';
 
 @Service()
 @Resolver(of => Vault)

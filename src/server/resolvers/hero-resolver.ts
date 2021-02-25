@@ -1,9 +1,9 @@
-import { Resolver, Query } from 'type-graphql'
+import {Query, Resolver} from 'type-graphql'
 
-import { Hero } from '../entities/hero'
-import { InjectRepository } from 'typeorm-typedi-extensions'
-import { Repository } from 'typeorm'
-import { Service } from 'typedi'
+import {Hero} from '../entities/hero'
+import {InjectRepository} from 'typeorm-typedi-extensions'
+import {Repository} from 'typeorm'
+import {Service} from 'typedi'
 
 @Service()
 @Resolver(of => Hero)

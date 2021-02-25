@@ -1,6 +1,6 @@
-import { Resolver, Query, ObjectType, Field, Arg } from 'type-graphql';
-import { Service } from 'typedi';
-import { AuthService } from '../services/auth-service';
+import {Arg, Field, ObjectType, Query, Resolver} from 'type-graphql';
+import {Service} from 'typedi';
+import {AuthService} from '../services/auth-service';
 
 @ObjectType()
 class AuthToken {

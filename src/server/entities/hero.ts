@@ -1,8 +1,9 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToMany, JoinTable, JoinColumn, OneToOne } from 'typeorm';
-import { ObjectType, ID, Field } from 'type-graphql';
-import { Lazy } from '../helpers';
-import { Skill } from '../entities/skill';
-import { Attribute } from './attribute';
+import {Column, Entity, JoinColumn, JoinTable, ManyToMany, OneToOne, PrimaryGeneratedColumn} from 'typeorm';
+import {Field, ID, ObjectType} from 'type-graphql';
+import {Lazy} from '../helpers';
+import {Skill} from './skill';
+import {Attribute} from './attribute';
+import {AuthorityRole} from "../types/authorityRole";
 
 @Entity()
 @ObjectType()
@@ -10,6 +11,10 @@ export class Hero {
 	@Field((type) => ID)
 	@PrimaryGeneratedColumn()
 	id!: number;
+
+	@Field()
+	@Column()
+	role: AuthorityRole;
 
 	@Field()
 	@Column()
